@@ -1,26 +1,26 @@
-#?ndice
+#Índice
 
-# I.-       Instalaci?n de paquetes y librer?as.
+# I.-       Instalación de paquetes y librerías.
 # II.-      Lectura de fichero.
 # III.-     Copia de los datos para trabajar.
-# IV.-      Documentaci?n y selecci?n de variables.
-# IV.a.-    Renombrar variables para facilitar la comprensi?n.
-# V.-       An?lisis inicial de los datos.
+# IV.-      Documentación y selección de variables.
+# IV.a.-    Renombrar variables para facilitar la comprensión.
+# V.-       Análisis inicial de los datos.
 # VI.-      Limpieza de los datos.
-# VII.-     Transformaci?n de los datos.
-# VIII.-    An?lisis exploratorio de los datos.
-# VIII.a.-  Matriz de correlaci?n para visualizar relaciones con la variable dependiente.
-# IX.-      Dise?o y desarrollo de modelos de aprendizaje supervisado.
-# IX.a.-    Partici?n de los datos en los conjuntos de prueba y entrenamiento
-# IX.b.-    Creaci?n de datasets balanceados mediante la t?cnica de Undersampling.
-# IX.c.-    Implementaci?n de modelos
-# X.-       M?tricas y resultados 
+# VII.-     Transformación de los datos.
+# VIII.-    Análisis exploratorio de los datos.
+# VIII.a.-  Matriz de correlación para visualizar relaciones con la variable dependiente.
+# IX.-      Diseño y desarrollo de modelos de aprendizaje supervisado.
+# IX.a.-    Partición de los datos en los conjuntos de prueba y entrenamiento
+# IX.b.-    Creación de datasets balanceados mediante la técnica de Undersampling.
+# IX.c.-    Implementación de modelos
+# X.-       Métricas y resultados 
 
 
 
 
 
-# I.- Instalaci?n de paquetes y librer?as.
+# I.- Instalación de paquetes y librerías.
 
 install.packages("foreign")
 install.packages("reshape")
@@ -90,26 +90,26 @@ datos <- file2015
 
 
 
-# IV.- Documentaci?n y selecci?n de variables tras consultar la documentaci?n y  
-#       estudiar las variables m?s significativas para este caso de uso.
+# IV.- Documentación y selección de variables tras consultar la documentación y  
+#       estudiar las variables más significativas para este caso de uso.
 
-datos$DIABETE3    # 0.-  Diabetes (Var. dependiente)
-datos$X_RFHYPE5   # 1.-  Presi?n arterial.
+datos$DIABETE3    # 0.-  Diabetes (Var. dependiente).
+datos$X_RFHYPE5   # 1.-  Presión arterial.
 datos$TOLDHI2     # 2.-  Colesterol alto. 
-datos$X_CHOLCHK   # 3.-  Revisi?n del colesterol en los ?ltimos 5 a?os.
-datos$X_BMI5      # 4.-  ?ndice de masa muscular (IMC)
+datos$X_CHOLCHK   # 3.-  Revisión del colesterol en los últimos 5 años.
+datos$X_BMI5      # 4.-  Índice de masa muscular (IMC).
 datos$SMOKE100    # 5.-  Fumador.
 datos$CVDSTRK3    # 6.-  Ictus.
-datos$X_MICHD     # 7.-  Enfermedad coronaria del coraz?n o infarto de miocardio.
-datos$X_TOTINDA   # 8.-  Actividad f?sica.
+datos$X_MICHD     # 7.-  Enfermedad coronaria del corazón o infarto de miocardio.
+datos$X_TOTINDA   # 8.-  Actividad física.
 datos$X_FRTLT1    # 9.-  Consumo de fruta.
 datos$X_VEGLT1    # 10.- Consumo de verdura.
 datos$X_RFDRHV5   # 11.- Consumo excesivo de alcohol.
-datos$HLTHPLN1    # 12.- Acceso a atenci?n sanitaria.
-datos$MEDCOST     # 13.- No ha podido visitar un m?dico en los ?ltimos 12 meses debido a los costes.
+datos$HLTHPLN1    # 12.- Acceso a atención sanitaria.
+datos$MEDCOST     # 13.- No ha podido visitar un médico en los últimos 12 meses debido a los costes.
 datos$GENHLTH     # 14.- Estado general de salud.
-datos$MENTHLTH    # 15.- N?mero de d?as del mes que ha tenido una mala salud mental.
-datos$PHYSHLTH    # 16.- N?mero de d?as del mes que ha tenido una mala salud f?sica.
+datos$MENTHLTH    # 15.- Número de días del mes que ha tenido una mala salud mental.
+datos$PHYSHLTH    # 16.- Número de días del mes que ha tenido una mala salud física.
 datos$DIFFWALK    # 17.- Dificultad para caminar o subir escaleras.
 datos$SEX         # 18.- Sexo.
 datos$X_AGEG5YR   # 19.- Edad.
@@ -123,7 +123,7 @@ datos <- subset(datos, TRUE, select = c(DIABETE3, X_RFHYPE5, TOLDHI2, X_CHOLCHK,
 
 
 
-# IV.a.- Renombrar variables para facilitar la comprensi?n.
+# IV.a.- Renombrar variables para facilitar la comprensión.
 
 datos = rename(datos, c("Diabetes"=DIABETE3, "HighBloodPressure"=X_RFHYPE5, "HighChol"=TOLDHI2, "CholCheck"=X_CHOLCHK,
                         "BMI"=X_BMI5, "Smoker"=SMOKE100, "Stroke"=CVDSTRK3, "HeartDiseaseOrAttack"=X_MICHD, 
@@ -136,7 +136,7 @@ datos = rename(datos, c("Diabetes"=DIABETE3, "HighBloodPressure"=X_RFHYPE5, "Hig
 
 
 
-# V.- An?lisis inicial de los datos.
+# V.- Análisis inicial de los datos.
 
 View(datos)
 str(datos)
@@ -155,23 +155,23 @@ datos <- na.omit(datos)
 
 
 
-# VII.- Transformaci?n de los datos.
+# VII.- Transformación de los datos.
 
 # 0.- Diabetes. 
 
 # Datos:
-#   1 - diab?tico.
+#   1 - diabético.
 #   2 - diabetes gestacional.
-#   3 - no diab?tico.
-#   4 - cerca del l?mite de la diabetes.
-#   7 - no lo sabe / no est? seguro.
+#   3 - no diabético.
+#   4 - cerca del límite de la diabetes.
+#   7 - no lo sabe / no está seguro.
 #   9 - no responde.
 
-# Transformaci?n:
-#   0 - no diab?tico o diabetes gestacional.
-#   1 - prediabetico o cerca del l?mite de la diabetes. 
-#   2 - diab?tico.
-#   eliminar los que no lo saben / no est?n seguros o no responden.
+# Transformación:
+#   0 - no diabético o diabetes gestacional.
+#   1 - prediabético o cerca del límite de la diabetes. 
+#   2 - diabético.
+#   eliminar los que no lo saben / no están seguros o no responden.
 
 table(datos$Diabetes)
 
@@ -188,16 +188,16 @@ table(datos$Diabetes)
 
 
 
-# 1.- Presi?n arterial.
+# 1.- Presión arterial.
 
 # Datos:
-#   1 - tiene tensi?n alta.
-#   2 - no tiene tensi?n alta.
+#   1 - tiene tensión alta.
+#   2 - no tiene tensión alta.
 #   9 - no responde.
 
-# Transformaci?n:
-#   0 - no tiene tensi?n alta.
-#   1 - tiene tensi?n alta.
+# Transformación:
+#   0 - no tiene tensión alta.
+#   1 - tiene tensión alta.
 #   eliminar los que no responden.
 
 table(datos$HighBloodPressure)
@@ -215,15 +215,15 @@ table(datos$HighBloodPressure)
 # 2.- Colesterol alto.
 
 # Datos:
-#   1 - s? tiene colesterol alto.
+#   1 - sí tiene colesterol alto.
 #   2 - no tiene colesterol alto.
-#   7 - no lo sabe / no est? seguro.
+#   7 - no lo sabe / no está seguro.
 #   9 - no responde.
 
-# Trasnformaci?n:
+# Trasnformación:
 #   0 - no tiene el colesterol alto.
-#   1 - S? tiene el colesterol alto.
-#   eliminar los que no lo saben / no est?n seguros o no responden.
+#   1 - sí tiene el colesterol alto.
+#   eliminar los que no lo saben / no están seguros o no responden.
 
 table(datos$HighChol)
 
@@ -237,17 +237,17 @@ table(datos$HighChol)
 
 
 
-# 3.- Revisi?n del colesterol en los ?ltimos 5 a?os.
+# 3.- Revisión del colesterol en los últimos 5 a?os.
 
 #Datos:
-#   1 - colesterol revisado en los ?ltimos 5 a?os.
-#   2 - colesterol no revisado en los ?ltimos 5 a?os.
-#   3 - colesterol no revisado en los ?ltimos 5 a?os.
+#   1 - colesterol revisado en los últimos 5 a?os.
+#   2 - colesterol no revisado en los últimos 5 a?os.
+#   3 - colesterol no revisado en los últimos 5 a?os.
 #   9 - no responde.
 
-# Transformaci?n
-#   0 - colesterol no revisado en los ?ltimos 5 a?os.
-#   1 - colesterol revisado en los ?ltimos 5 a?os.
+# Transformación
+#   0 - colesterol no revisado en los últimos 5 a?os.
+#   1 - colesterol revisado en los últimos 5 a?os.
 #   eliminar los que no responden.
 
 table(datos$CholCheck)
@@ -267,7 +267,7 @@ table(datos$CholCheck)
 # Datos:
 #   MBI * 100.
 
-# Transformaci?n:
+# Transformación:
 #   % MBI: MBI/100.
 
 str(datos$BMI)
@@ -283,13 +283,13 @@ str(datos$BMI)
 # Datos:
 #   1 - fumador.
 #   2 - no fumador.
-#   7 - no lo sabe / no est? seguro.
+#   7 - no lo sabe / no está seguro.
 #   9 - no responde.
 
-# Transformaci?n:
+# Transformación:
 #   0 - no fumador.
 #   1 - fumador.
-#   eliminar los que no lo saben / no est?n seguros o no responden.
+#   eliminar los que no lo saben / no están seguros o no responden.
 
 table(datos$Smoker)
 
@@ -306,9 +306,9 @@ table(datos$Smoker)
 # 6.- Ictus.
 
 # Datos:
-#   1 - s? ha padecido ning?n ictus.  
-#   2 - no ha padecido alg?n ictus.
-#   7 - no lo sabe / no est? seguro.
+#   1 - sí ha padecido algún ictus.  
+#   2 - no ha padecido ningún ictus.
+#   7 - no lo sabe / no está seguro.
 #   9 - no responde.
 
 # Transformaci?n:
